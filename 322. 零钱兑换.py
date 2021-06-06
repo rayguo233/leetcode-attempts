@@ -28,12 +28,6 @@ class Solution:
         res = dp[amount % max_coin]
         return -1 if res == INF else res
 
-    @staticmethod
-    def coin_change(coins: list[int], amount: int) -> int:
-        record = {}
-
-        return record
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     sol = Solution()
