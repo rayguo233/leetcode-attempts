@@ -55,13 +55,49 @@ class Solution:
             ops += 1
         return -1
 
+    def openLock_better(self, deadends: list[str], target: str) -> int:
+        visited1 = set('0000')
+        visited2 = set()
+        visited2.add(target)
+        ops = 0
+        stack1 = ['0000']  # type: list[str]
+        stack2 = [target]  # type: list[str]
+        next_locks = []
+
+        if '0000' in deadends or target in deadends: return -1
+
+        def inc(lock, i) -> str:
+            if lock[i] == '9': return lock[:i] + '0' + lock[i + 1:]
+            return lock[:i] + chr(ord(lock[i]) + 1) + lock[i + 1:]
+
+        def dec(lock, i) -> str:
+            if lock[i] == '0': return lock[:i] + '9' + lock[i + 1:]
+            return lock[:i] + chr(ord(lock[i]) - 1) + lock[i + 1:]
+
+        while stack1 or stack2:
+            leng = len(stack1)
+            for _ in range(leng):
+                lock = stack1.pop(0)
+                if lock in visited2: return ops
+                for i in range(4):
+                    next_locks += [inc(lock, i), dec(lock, i)]
+                for next_lock in next_locks:
+                    if next_lock not in visited1 and next_lock not in deadends:
+                        stack1.append(next_lock)
+                        visited1.add(next_lock)
+                next_locks = []
+            if leng > 0: ops += 1
+            stack1, stack2 = stack2, stack1
+            visited1, visited2 = visited2, visited1
+        return -1
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     sol = Solution()
-    assert(sol.openLock(["0201"], "0202") == 4)
-    assert(sol.openLock(["0201"], "0000") == 0)
-    assert(sol.openLock(["0202"], "0202") == -1)
+    assert(sol.openLock_better(["0201"], "0202") == 4)
+    assert(sol.openLock_better(["0201"], "0000") == 0)
+    assert(sol.openLock_better(["0202"], "0202") == -1)
 
     # assert(sol.coin_change([1,2,5], 11) == 3)
     # assert(sol.coin_change([1], 11) == 11)
