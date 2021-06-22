@@ -25,7 +25,10 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+
 class Solution:
+    # rank: 97.41; 28.73
+
     def constructMaximumBinaryTree(self, nums: list[int]) -> TreeNode:
         root = TreeNode(val=nums[0])
         stack = [root]
@@ -47,6 +50,7 @@ class Solution:
             stack.append(curr)
 
         return root
+
 
 
 if __name__ == '__main__':
