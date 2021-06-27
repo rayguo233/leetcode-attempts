@@ -52,14 +52,42 @@ class Solution:
 
         return res
 
+    def threeSum_try2(self, nums: list[int]) -> list[list[int]]:
+        def skip_duplicates(start, direction, leng) -> int:
+            curr = nums[start]
+            while leng > start > 0 and nums[start] == curr:
+                start = start + direction
+            return start
+        LEFT, RIGHT = -1, 1
+        leng = len(nums)
+        if leng < 3: return []
+        res = []
+        nums.sort()
+        first = 0
+
+        while first < leng - 2:
+            second, third = first + 1, leng - 1
+            while second < third:
+                summ = nums[first] + nums[second] + nums[third]
+                if summ == 0:
+                    res.append([nums[first], nums[second], nums[third]])
+                    second = skip_duplicates(second, RIGHT, leng)
+                    third = skip_duplicates(third, LEFT, leng)
+                elif summ < 0:
+                    second += 1
+                else:
+                    third -= 1
+            curr = nums[first]
+            # move the first pointer skipping duplicate values
+            while first < leng and nums[first] == curr:
+                first += 1
+        return res
 
 if __name__ == '__main__':
     sol = Solution()
-    print(sol.threeSum([-1,-1,1,2,-1,-3]))
-    print(sol.threeSum([-1,-1,1,2,-1,-1]) == [[-1,-1,2]])
-    print(sol.threeSum([1]) == [])
-    assert(sol.threeSum([1,2]) == [])
-    assert(sol.threeSum([]) == [])
-    # assert(sol.rob([2,4]) == 4)
-    # assert(sol.rob([2,1,4,8]) == 9)
-    # assert(sol.rob([2,1,4,8,9]) == 13)
+    print(sol.threeSum_try2([-1, 0, 1, 2, -1, -4]))
+    # print(sol.threeSum_try2([-1,-1,1,2,-1,-3]))
+    # assert(sol.threeSum_try2([-1,-1,1,2,-1,-1]) == [[-1,-1,2]])
+    # assert(sol.threeSum_try2([1]) == [])
+    # assert(sol.threeSum_try2([1,2]) == [])
+    # assert(sol.threeSum_try2([]) == [])
