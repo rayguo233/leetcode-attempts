@@ -46,9 +46,28 @@ class Solution:
 
         return dummy.next
 
+    def reverse_between(self, head: ListNode, left: int, right: int) -> ListNode:
+        if left == right: return head
+        dummy = ListNode(next=head)
+        curr = dummy
+        while left > 1:
+            left, right = left - 1, right - 1
+            curr = curr.next
+
+        left, first = curr, curr.next
+        prev, curr = left.next, left.next.next
+        while right > 1:
+            right -= 1
+            next = curr.next
+            prev, curr.next = curr, prev
+            curr = next
+
+        left.next, first.next = prev, curr
+        return dummy.next
+
 if __name__ == '__main__':
     sol = Solution()
-    n = sol.reverseBetween(ListNode(val=1,next=ListNode(val=2,next=ListNode(val=3,next=ListNode(val=4,next=ListNode(val=5))))),
+    n = sol.reverse_between(ListNode(val=1,next=ListNode(val=2,next=ListNode(val=3,next=ListNode(val=4,next=ListNode(val=5))))),
                              2,4)
     m = 0
     while n is not None and m < 10:
