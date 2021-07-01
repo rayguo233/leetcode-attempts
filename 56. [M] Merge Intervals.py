@@ -27,11 +27,28 @@ class Solution:
             res.append(prev)
         return res
 
+    def merge_try2(self, intervals: list[list[int]]) -> list[list[int]]:
+        res = []
+        intervals.sort(key=lambda x: x[0])
+        prev = None
+        for itv in intervals:
+            if prev is None:
+                prev = itv
+            elif prev[1] >= itv[0]:
+                prev[1] = max(prev[1], itv[1])
+            else:
+                res.append(prev)
+                prev = itv
+        if prev: res.append(prev)
+        return res
+
+
+
 
 if __name__ == '__main__':
     sol = Solution()
     # print(sol.merge([[1,2]]))
-    print(sol.merge([[1,2],[0,9],[6,7]]))
+    print(sol.merge_try2([[1,2],[0,9],[6,7]]))
     # assert(sol.rob([2,4]) == 4)
     # assert(sol.rob([2,1,4,8]) == 9)
     # assert(sol.rob([2,1,4,8,9]) == 13)
