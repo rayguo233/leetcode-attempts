@@ -1,2 +1,8 @@
+*
+!*.py
+!*.cpp
+!cpp
+!python
 .idea/**
 main.py
+**/.vscode/**
