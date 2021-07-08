@@ -40,8 +40,8 @@ public:
         }
 
         int d_key = m_list.back().first;
-        m_map.erase(key);
         m_list.pop_back();
+        m_map.erase(d_key);
 
         m_list.push_front({key, value});
         m_map[key] = m_list.begin();
