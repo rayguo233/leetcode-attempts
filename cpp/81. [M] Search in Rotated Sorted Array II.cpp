@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/container-with-most-water/
+// 
 
 #include <vector>  
 #include <math.h>
