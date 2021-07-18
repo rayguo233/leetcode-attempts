@@ -16,7 +16,6 @@ public:
             for (int j = 1; j <= i/2; j++) {
                 maxi = max(maxi, max(j, dp[j]) * max(i-j, dp[i-j]));
             }
-            cout << i << ' ' << maxi << endl;
             dp[i] = maxi;
         }
         return dp[n];
