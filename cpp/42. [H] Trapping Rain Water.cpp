@@ -17,17 +17,14 @@ public:
         stack<pair<int, int>> left_walls;
         for (int i = 0; i < height.size(); i++) {
             int h = height[i];
-            while (!left_walls.empty() && left_walls.top().first < h) {
+            while (!left_walls.empty() && left_walls.top().first <= h) {
                 int base = left_walls.top().first;
                 left_walls.pop();
                 if (left_walls.empty())
                     break;
-                res += (i - left_walls.top().second) * min(left_walls.top().first - base, h - base);
+                res += (i - left_walls.top().second - 1) * min(left_walls.top().first - base, h - base);
             }
-            if (!left_walls.empty() && left_walls.top().first == h)
-                continue;
             left_walls.push({h, i});
-
         }
         return res;
     }
