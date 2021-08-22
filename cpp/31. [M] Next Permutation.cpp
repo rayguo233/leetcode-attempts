@@ -27,7 +27,7 @@ public:
                 max = itr;
             }
         }
-        swap(nums.begin(), nums.end() - 1);
+        iter_swap(nums.begin(), nums.end() - 1);
     }
 
     // void swap(vector<int>::iterator a, vector<int>::iterator b) {
