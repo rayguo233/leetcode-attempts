@@ -6,7 +6,7 @@ using namespace std;;
 
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> ThreeSumV1(vector<int>& nums) {
         sort(nums.begin(), nums.end());
         int size = nums.size();
         int i = 0;
@@ -51,14 +51,37 @@ public:
         return res;
     }
 
-    void print_res(vector<int>& nums) {
-        vector<vector<int>> res = threeSum(nums);
-        for (auto itr = res.begin(); itr != res.end(); itr++) {
-            for (auto it = itr->begin(); it != itr->end(); it++) {
-                cout << *it << ' ';
+    vector<vector<int>> ThreeSumV2(const vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        int nums_size = nums.size();
+        for (int i = 0; i < nums_size; i++) {
+            if (i > 0 && nums.at(i) == nums.at(i-1))
+                continue;
+            int first = nums.at(i);
+            int second_i = i + 1;
+            int third_i = nums_size - 1;
+            while (second_i < third_i) {
+                if (second_i > i + 1 && nums.at(second_i) == nums.at(second_i-1)) {
+                    second_i++;
+                    continue;
+                }
+                if (third_i < nums_size - 1 && nums.at(third_i) == nums.at(third_i+1)) {
+                    third_i--;
+                    continue;
+                }
+                int curr_sum = first + nums.at(second_i) + nums.at(third_i);
+                if (curr_sum == 0) {
+                    res.push_back({first, nums.at(second_i), nums.at(third_i)});
+                    second_i++, third_i--;
+                } else if (curr_sum < 0) {
+                    second_i++;
+                } else {
+                    third_i--;
+                }
             }
-            cout << endl;
         }
+        return res;
     }
 };
 
@@ -66,5 +89,4 @@ int main() {
     Solution sol = Solution();
     vector<int> v = {1,2,3,4,1,1,-1,-1,-2};
     v = {0,0,0};
-    sol.print_res(v);
 }
