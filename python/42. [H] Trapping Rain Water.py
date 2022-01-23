@@ -11,7 +11,7 @@
 
 class Solution:
 
-    def trap(self, height: list[int]) -> int:
+    def trap_0(self, height: list[int]) -> int:
         if not height: return 0
         res = 0
         lefts = [(height[0], 0)]
@@ -42,14 +42,29 @@ class Solution:
             if not lefts: lefts.append((h, i))
         return res
 
-
-
-
+    def trap(self, height: list[int]) -> int:
+        LEFT, RIGHT = 0, 1
+        maxes = [-1, -1]
+        indices = [0, len(height) - 1]
+        res = 0
+        print('-----start-----')
+        while indices[LEFT] <= indices[RIGHT]:
+            curr = maxes[LEFT] > maxes[RIGHT]
+            if height[indices[curr]] < maxes[curr]:
+                res += maxes[curr] - height[indices[curr]]
+            maxes[curr] = max((height[indices[curr]], maxes[curr]))
+            indices[curr] += (-1 if curr else 1)
+            # print(indices, curr)
+        return res
 
 
 if __name__ == '__main__':
     sol = Solution()
-    print(sol.trap([5,5,1,7,1,1,5,2,7,6]))
+    print(sol.trap([]))
+    print(sol.trap([1,0,1]), 1)
+    print(sol.trap([0,1,0,0]), 0)
+    print(sol.trap([0,1,6,4,5,8,9,0]), 3)
+
     # assert(sol.coin_change([1,2,5], 11) == 3)
     # assert(sol.coin_change([1], 11) == 11)
     # assert(sol.coin_change([2], 11) == -1)
