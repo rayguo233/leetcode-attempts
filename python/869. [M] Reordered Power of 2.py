@@ -14,7 +14,7 @@ class Solution:
         length = len(str(n))
         targets = find_powers_of_2(length)
         print(targets)
-        n_str = str(n)
+        n_str = sorted(str(n))
         return any(all(t_char == n_char for t_char, n_char in zip(target, n_str)) for target in targets)
 
 
