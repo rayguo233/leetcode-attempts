@@ -16,23 +16,45 @@
 # 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
 import random
+from typing import List
+
 
 class Solution:
-    def sortColors(self, nums: list[int]) -> None:
-        self.quick_sort(nums, 0, len(nums)-1)
 
-    def quick_sort(self, nums, l, r):
+    def sortColors(self, nums: List[int]) -> None:
+        self.quick_sort(nums, 0, len(nums) - 1)
+
+    def quick_sort(self, nums, start, end) -> None:
+        l, r = start, end
+        if l >= r:
+            return
+        pivot = nums[start]
+        l += 1
+        while l <= r:
+            nums[l], nums[r] = nums[r], nums[l]
+            while l < len(nums) and nums[l] <= pivot:
+                l += 1
+            while nums[r] > pivot:
+                r -= 1
+        nums[r], nums[start] = nums[start], nums[r]
+        self.quick_sort(nums, start, r - 1)
+        self.quick_sort(nums, r + 1, end)
+
+    def sortColors_v0(self, nums: list[int]) -> None:
+        self.quick_sort(nums, 0, len(nums) - 1)
+
+    def quick_sort_v0(self, nums, l, r):
         if r - l <= 0:
             return
         # print(nums, l, r)
         pvt_i = self.partition(nums, l, r)
         # print(nums, pvt_i, l, r)
-        self.quick_sort(nums, l, pvt_i-1)
-        self.quick_sort(nums, pvt_i+1, r)
+        self.quick_sort(nums, l, pvt_i - 1)
+        self.quick_sort(nums, pvt_i + 1, r)
 
     def partition(self, nums, l, r) -> int:
         init_l = l
-        pvt_i = random.randrange(start=l, stop=r+1)
+        pvt_i = random.randrange(start=l, stop=r + 1)
         pvt_val = nums[pvt_i]
         self.swap(nums, pvt_i, r)
         pvt_i = r
@@ -57,7 +79,10 @@ class Solution:
 
 if __name__ == '__main__':
     sol = Solution()
-    a = [2,0,2,1,1,0]
+    a = [2, 0]
+    a = [0]
+    a = [1, 2]
+    a = [1, 0, 2]
     sol.sortColors(a)
     print(a)
     # print(sol.sortColors("a", 'aa'))
