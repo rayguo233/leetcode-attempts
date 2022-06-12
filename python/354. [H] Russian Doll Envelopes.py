@@ -1,9 +1,22 @@
+import bisect
 from collections import OrderedDict
 from typing import List
 
 
 class Solution:
+
     def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        envelopes = [e[1] for e in envelopes]
+        max_len = 0
+        for i, h in enumerate(envelopes):
+            envelopes[i] = float('inf')
+            index = bisect.bisect_left(envelopes, h, hi=max_len)
+            envelopes[index] = min(h, envelopes[index])
+            max_len = max(index + 1, max_len)
+        return max_len
+
+    def maxEnvelopes_v0(self, envelopes: List[List[int]]) -> int:
         envelopes.sort()
         d = OrderedDict()
         d[0] = [[0, 0]]
@@ -24,9 +37,8 @@ class Solution:
             max_env = max(depth, max_env)
         return max_env
 
+
 if __name__ == '__main__':
     sol = Solution()
-    # assert(sol.rob([2,1,4]) == 4)
-    # assert(sol.rob([2,4]) == 4)
-    # assert(sol.rob([2,1,4,8]) == 9)
-    # assert(sol.rob([2,1,4,8,9]) == 13)
+    print(sol.maxEnvelopes([[1, 3], [4, 2]]))
+    print(sol.maxEnvelopes([[1, 3], [4, 4]]))
